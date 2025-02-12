@@ -15,26 +15,33 @@ def logger(path):
     def __logger(old_function):
         @wraps(old_function)
         def new_function(*args, **kwargs):
-
             current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             function_name = old_function.__name__
-            args_str = ', '.join([repr(arg) for arg in args])
-            kwargs_str = ', '.join([f"{key}={repr(value)}" for key, value in kwargs.items()])
-            all_args = ', '.join([args_str, kwargs_str]) if kwargs else args_str
+
+            args_str = ', '.join(repr(arg) for arg in args)
+            kwargs_str = ', '.join(f"{key}={repr(value)}" for key, value in kwargs.items())
+            all_args = ', '.join(filter(None, [args_str, kwargs_str]))  # Исключает пустые части
+
             result = old_function(*args, **kwargs)
+
             log_entry = f"{current_time} - {function_name}({all_args}) -> {repr(result)}\n"
-            # Проверим, существует ли директория
+
             try:
-                # Если путь к файлу не существует, создаем его
-                os.makedirs(os.path.dirname(path), exist_ok=True)
+                # Проверяем, существует ли директория
+                log_dir = os.path.dirname(path)
+                if log_dir and not os.path.exists(log_dir):
+                    os.makedirs(log_dir, exist_ok=True)
 
                 # Записываем информацию в файл
-                with open(path, 'a') as log_file:
+                with open(path, 'a', encoding='utf-8') as log_file:
                     log_file.write(log_entry)
             except Exception as e:
-                print(f"Ошибка при записи в файл: {e}")
+                print(f"Ошибка при записи в файл {path}: {e}", file=sys.stderr)
+
             return result
+
         return new_function
+
     return __logger
 
 
