@@ -1,0 +1,32 @@
+{
+  "name": "defender-game",
+  "version": "1.0.0",
+  "description": "Browser based game",
+  "keywords": [
+    "game"
+  ],
+  "homepage": "https://github.com/GolubchikovKirill/Homework-Netology#readme",
+  "bugs": {
+    "url": "https://github.com/GolubchikovKirill/Homework-Netology/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GolubchikovKirill/Homework-Netology.git"
+  },
+  "license": "ISC",
+  "author": "Kirill",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d dist"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3"
+  },
+  "dependencies": {
+    "core-js": "^3.45.1"
+  }
+}
